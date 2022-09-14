@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire;
 
+use App\Imports\FieldequipImport;
+use Maatwebsite\Excel\Facades\Excel;
 use Livewire\Component;
 use App\Models\Fieldequip;
 
@@ -10,7 +12,7 @@ class Fieldequips extends Component
     public $fieldequips, $Location, $Equipment_Name,$category,$Serial_No
         ,$Software_Version
         ,$Manufacturer_Name
-        ,$Supplier_Name
+        ,$Supplier_Name,$Supplier_Contact,$Supplier_Email
         ,$classification,
         $date_received,
         $Service_date,
@@ -31,9 +33,11 @@ class Fieldequips extends Component
         $Comment,
         $Comment_Approver,
         $Comment_Approval_date,
-        $Notified_By;
+        $Notified_By,
+    $Status;
 
     public $isOpen = 0;
+    public $isimpOpen = 0;
     public $Identification_No;
     /**
      * The attributes that are mass assignable.
@@ -45,10 +49,9 @@ class Fieldequips extends Component
         $this->fieldequips = Fieldequip::all();
         return view('livewire.fieldequips');
     }
-    public function toreport()
+    public function toreport($idno)
     {
-
-        return redirect()->route('report');
+        return redirect()->route('report')->with([ 'idno' => $idno ]);
     }
     /**
      * The attributes that are mass assignable.
@@ -60,7 +63,34 @@ class Fieldequips extends Component
         $this->resetInputFields();
         $this->openModal();
     }
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function createimp()
+    {
 
+        $this->openimpModal();
+    }
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function openimpModal()
+    {
+        $this->isimpOpen = true;
+    }
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function closeimpModal()
+    {
+        $this->isimpOpen = false;
+    }
     /**
      * The attributes that are mass assignable.
      *
@@ -96,6 +126,8 @@ class Fieldequips extends Component
         $this->Software_Version = '';
         $this->Manufacturer_Name = '';
         $this->Supplier_Name = '';
+        $this->Supplier_Contact = '';
+        $this->Supplier_Email = '';
         $this->classification = '';
         $this->date_received = '';
         $this->Service_date = '';
@@ -117,8 +149,20 @@ class Fieldequips extends Component
         $this->Comment_Approver = '';
         $this->Comment_Approval_date = '';
         $this->Notified_By = '';
-    }
+        $this->Status = '';
 
+    }
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function import()
+    {
+        Excel::import(new FieldequipImport, 'fieldequips.xlsx');
+
+        return redirect('/')->with('success', 'All good!');
+    }
     /**
      * The attributes that are mass assignable.
      *
@@ -139,6 +183,8 @@ class Fieldequips extends Component
 'Software_Version'=>$this->Software_Version,
 'Manufacturer_Name'=>$this->Manufacturer_Name,
 'Supplier_Name'=>$this->Supplier_Name,
+            'Supplier_Contact'=>$this->Supplier_Contact,
+            'Supplier_Email'=>$this->Supplier_Email,
 'classification'=>$this->classification,
 'date_received'=>$this->date_received,
 'Service_date'=>$this->Service_date,
@@ -160,6 +206,8 @@ class Fieldequips extends Component
 'Comment_Approver'=>$this->Comment_Approver,
 'Comment_Approval_date'=>$this->Comment_Approval_date,
 'Notified_By'=>$this->Notified_By,
+            'Status'=>$this->Status,
+
         ]);
 
         session()->flash('message',
@@ -186,6 +234,8 @@ class Fieldequips extends Component
         $this->Software_Version = $fieldequip->Software_Version;
         $this->Manufacturer_Name = $fieldequip->Manufacturer_Name;
         $this->Supplier_Name = $fieldequip->Supplier_Name;
+        $this->Supplier_Contact = $fieldequip->Supplier_Contact;
+        $this->Supplier_Email = $fieldequip->Supplier_Email;
         $this->classification = $fieldequip->classification;
         $this->date_received = $fieldequip->date_received;
         $this->Service_date = $fieldequip->Service_date;
@@ -207,7 +257,7 @@ class Fieldequips extends Component
         $this->Comment_Approver = $fieldequip->Comment_Approver;
         $this->Comment_Approval_date = $fieldequip->Comment_Approval_date;
         $this->Notified_By = $fieldequip->Notified_By;
-
+        $this->Status = $fieldequip->Status;
         $this->openModal();
     }
 

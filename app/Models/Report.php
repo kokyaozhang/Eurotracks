@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Fieldequip extends Model
+class Report extends Model
 {
     use HasFactory;
     protected $primaryKey = 'Identification_No';
+    protected $table = 'fieldequips';
     public $incrementing = false;
     /**
      * The attributes that are mass assignable.
@@ -44,6 +45,8 @@ class Fieldequip extends Model
         'Comment_Approver',
         'Comment_Approval_date',
         'Notified_By',
+        'created_at',
+        'updated_at',
         'Status',
     ];
 }

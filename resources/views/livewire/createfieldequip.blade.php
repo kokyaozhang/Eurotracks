@@ -54,6 +54,16 @@
                             @error('Supplier_Name') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         <div class="mb-4">
+                            <label for="exampleFormControlInput30" class="block text-gray-700 text-sm font-bold mb-2">Supplier Contact:</label>
+                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="exampleFormControlInput30" placeholder="Enter Supplier Contact:" wire:model="Supplier_Contact">
+                            @error('Supplier_Contact') <span class="text-red-500">{{ $message }}</span>@enderror
+                        </div>
+                        <div class="mb-4">
+                            <label for="exampleFormControlInput31" class="block text-gray-700 text-sm font-bold mb-2">Supplier Email:</label>
+                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="exampleFormControlInput31" placeholder="Enter Supplier Email:" wire:model="Supplier_Email">
+                            @error('Supplier_Email') <span class="text-red-500">{{ $message }}</span>@enderror
+                        </div>
+                        <div class="mb-4">
                             <label for="exampleFormControlInput8" class="block text-gray-700 text-sm font-bold mb-2">Classification:</label>
                             <select wire:model="classification" id="exampleFormControlInput8">
                                 <option value="" selected>Choose classification</option>
@@ -189,7 +199,16 @@
                         <div class="mb-4">
                             <label for="exampleFormControlInput29" class="block text-gray-700 text-sm font-bold mb-2">Notified_By:</label>
                             <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="exampleFormControlInput29" placeholder="Notified Person:" wire:model="Notified_By">
-                            @error('Notified by') <span class="text-red-500">{{ $message }}</span>@enderror
+                            @error('Notified_by') <span class="text-red-500">{{ $message }}</span>@enderror
+                        </div>
+                        <div class="mb-4">
+                            <label for="exampleFormControlInput24" class="block text-gray-700 text-sm font-bold mb-2">Select Status:</label>
+                            <select wire:model="Status" id="exampleFormControlInput24">
+                                <option value="Active" selected>Active</option>
+                                <option value="Transfer">Transfer</option>
+                                <option value="Obsolete">Obsolete</option>
+                            </select>
+                            @error('Status') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                     </div>
                 </div>

@@ -21,7 +21,11 @@
             @if($isOpen)
                 @include('livewire.createfieldequip')
             @endif
-            <table class="table-auto w-full">
+                <button wire:click="createimp()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded my-3">Import Excel File</button>
+                @if($isimpOpen)
+                    @include('livewire.creteimp')
+                @endif
+                <table class="table-auto w-full">
                 <thead>
                 <tr class="bg-gray-100">
                     <th class="px-4 py-2 w-30">Identification No</th>
@@ -44,14 +48,16 @@
                         <td class="border px-4 py-2">{{ $fieldequip->Supplier_Name }}</td>
                         <td class="border px-6 py-2">
                             <x-jet-button wire:click="edit('{{ $fieldequip->Identification_No }}')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</x-jet-button>
-                            <x-jet-button  wire:click="toreport"  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">View</x-jet-button>
+                            <x-jet-button  wire:click="toreport('{{ $fieldequip->Identification_No }}')"  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">View</x-jet-button>
                             <x-jet-button wire:click="delete('{{ $fieldequip->Identification_No }}')" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</x-jet-button>
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
+
         </div>
+
     </div>
 </div>
 </div>

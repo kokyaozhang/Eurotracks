@@ -21,17 +21,14 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified'
-])->group(function () {
+])->group(callback: function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
 
     })->name('dashboard');
     Route::get('posts', Posts::class)->name('posts');
     Route::get('fieldequips', \App\Http\Livewire\Fieldequips::class)->name('fieldequips');
-    Route::get('/report', function () {
-        return view('livewire.report');
-
-    })->name('report');
+    Route::get('report', \App\Http\Livewire\Reports::class)->name('report');
 });
 
 /*Route::middleware([
