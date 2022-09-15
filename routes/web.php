@@ -13,9 +13,10 @@ use App\Http\Livewire\Posts;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [\App\Http\Controllers\StudentController::class,'index']);
+Route::post('/import',[\App\Http\Controllers\StudentController::class,'import']);
+
+Route::post('/idd',[\App\Http\Livewire\Fieldequips::class,'fimport']);
 
 Route::middleware([
     'auth:sanctum',
@@ -29,6 +30,12 @@ Route::middleware([
     Route::get('posts', Posts::class)->name('posts');
     Route::get('fieldequips', \App\Http\Livewire\Fieldequips::class)->name('fieldequips');
     Route::get('report', \App\Http\Livewire\Reports::class)->name('report');
+
+    Route::post('fieldequips-import',[\App\Http\Livewire\Fieldequips::class.'import'])->name('fieldequips.import');
+    Route::get('export/',[\App\Http\Livewire\Fieldequips::class,'export'])->name('export');
+
+
+
 });
 
 /*Route::middleware([

@@ -2,7 +2,11 @@
 
 namespace App\Http\Livewire;
 
+use App\Exports\FieldequipsExport;
 use App\Imports\FieldequipImport;
+use App\Imports\FieldequipsImport;
+
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Livewire\Component;
 use App\Models\Fieldequip;
@@ -36,7 +40,9 @@ class Fieldequips extends Component
         $Notified_By,
     $Status;
 
+
     public $isOpen = 0;
+    public $isexpOpen = 0;
     public $isimpOpen = 0;
     public $Identification_No;
     /**
@@ -46,12 +52,28 @@ class Fieldequips extends Component
      */
     public function render()
     {
+
         $this->fieldequips = Fieldequip::all();
+
         return view('livewire.fieldequips');
     }
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     public function toreport($idno)
     {
         return redirect()->route('report')->with([ 'idno' => $idno ]);
+    }
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function toexport()
+    {
+        return redirect()->route('export');
     }
     /**
      * The attributes that are mass assignable.
@@ -72,6 +94,34 @@ class Fieldequips extends Component
     {
 
         $this->openimpModal();
+    }
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function createexp()
+    {
+
+        $this->openexpModal();
+    }
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function openexpModal()
+    {
+        $this->isexpOpen = true;
+    }
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function closeexpModal()
+    {
+        $this->isexpOpen = false;
     }
     /**
      * The attributes that are mass assignable.
@@ -157,11 +207,19 @@ class Fieldequips extends Component
      *
      * @var array
      */
-    public function import()
-    {
-        Excel::import(new FieldequipImport, 'fieldequips.xlsx');
+    public function fimport(Request $req){
+        Excel::import(new FieldequipsImport(),$req->file('field_file'));
+        return back()->withErrors(['msg' => 'The Message']);
 
-        return redirect('/')->with('success', 'All good!');
+    }
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function export()
+    {
+        return Excel::download(new FieldequipsExport, 'users.xlsx');
     }
     /**
      * The attributes that are mass assignable.

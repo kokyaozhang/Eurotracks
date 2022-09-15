@@ -14,8 +14,8 @@
 </head>
 
 <body>
-<div class="flex items-center justify-center min-h-screen bg-gray-100">
-    <div class="w-3/5 bg-white shadow-lg">
+<div class="flex items-center justify-center min-h-screen bg-gray-100 print:w-[full]]">
+    <div class="w-3/5 bg-white shadow-lg print:w-[full]]">
         <div class="flex justify-between p-4">
             <div>
                 <img
@@ -321,11 +321,12 @@
             </div>
             @endforeach
             <div class="flex items-end justify-end space-x-3">
-                <button class="px-4 py-2 text-sm text-green-600 bg-green-100">Print</button>
-                <button class="px-4 py-2 text-sm text-blue-600 bg-blue-100">Save</button>
-                <button class="px-4 py-2 text-sm text-red-600 bg-red-100">Cancel</button>
+                {{--<button wire:click="print()" class="px-4 py-2 text-sm text-green-600 bg-green-100">Print</button>--}}
+                {{--<button class="px-4 py-2 text-sm text-blue-600 bg-blue-100">Save</button>--}}
+                <button wire:click="print()" class="px-4 py-2 text-sm text-red-600 bg-red-100">Cancel</button>
             </div>
         </div>
+
 
     </div>
 </div>

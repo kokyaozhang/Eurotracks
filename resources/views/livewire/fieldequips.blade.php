@@ -3,6 +3,9 @@
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
         Register New Fieldwork Equipment
     </h2>
+    @if($errors->any())
+        <h4>{{$errors->first()}}</h4>
+    @endif
 </x-slot>
 <div class="py-12">
 
@@ -17,6 +20,25 @@
                     </div>
                 </div>
             @endif
+                @if($errors->any())
+                        <?php $count = 0; ?>
+                    @foreach ($errors->all() as $error)
+                        @if($count < 5)
+                        <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md my-3" role="alert">
+                            <div class="flex">
+                                <div>
+
+                                        <p class="text-sm">{{ $error }}</p>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                            <?php $count++; ?>
+                    @endforeach
+                @endif
             <button wire:click="create()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3">Register New Equipments</button>
             @if($isOpen)
                 @include('livewire.createfieldequip')
@@ -25,6 +47,8 @@
                 @if($isimpOpen)
                     @include('livewire.creteimp')
                 @endif
+                <button wire:click="toexport()" class="bg-fuchsia-600 hover:bg-fuchsia-800 text-white font-bold py-2 px-4 rounded my-3">Export Excel File</button>
+
                 <table class="table-auto w-full">
                 <thead>
                 <tr class="bg-gray-100">
@@ -32,7 +56,7 @@
                     <th class="px-4 py-2">Equipment Name</th>
                     <th class="px-2 py-2">Premise</th>
                     <th class="px-4 py-2">Interval</th>
-                    <th class="px-4 py-2">Supplier Name</th>
+                    <th class="px-4 py-2">Status</th>
                     <th class="px-6 py-2">Action</th>
                 </tr>
                 </thead>
@@ -45,7 +69,7 @@
                         <td class="border px-4 py-2">{{ $fieldequip->Equipment_Name }}</td>
                         <td class="border px-4 py-2">{{ $fieldequip->Location }}</td>
                         <td class="border px-4 py-2">{{ $fieldequip->Frequency }}</td>
-                        <td class="border px-4 py-2">{{ $fieldequip->Supplier_Name }}</td>
+                        <td class="border px-4 py-2">{{ $fieldequip->Status }}</td>
                         <td class="border px-6 py-2">
                             <x-jet-button wire:click="edit('{{ $fieldequip->Identification_No }}')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</x-jet-button>
                             <x-jet-button  wire:click="toreport('{{ $fieldequip->Identification_No }}')"  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">View</x-jet-button>

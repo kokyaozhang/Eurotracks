@@ -21,8 +21,14 @@ module.exports = {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
+            screens: {
+                'print': {'raw': 'print,(min-width: 1024px)'},
+                // => @media  print { ... }
+            }
+
         },
     },
 
     plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+
 };

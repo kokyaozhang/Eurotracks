@@ -35,6 +35,7 @@ class Reports extends Component
         $Notified_By,$created_at,$updated_at,$Supplier_Contact,$Supplier_Email,$Status;
 
     public $isOpen = 0;
+    public $allowPrint= 0;
     public $Identification_No;
     /**
      * The attributes that are mass assignable.
@@ -46,5 +47,9 @@ class Reports extends Component
         $bb=session()->get('idno');
         $this->reports = Report::get()->where('Identification_No', $bb);
         return view('livewire.report');
+    }
+    public function print()
+    {
+        return redirect()->route('fieldequips');
     }
 }

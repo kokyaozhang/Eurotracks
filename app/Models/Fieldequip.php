@@ -46,4 +46,5 @@ class Fieldequip extends Model
         'Notified_By',
         'Status',
     ];
+    protected $guarded=[];
 }
