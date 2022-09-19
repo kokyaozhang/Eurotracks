@@ -42,7 +42,7 @@
                                     {{ __('Assets') }}
                                 </x-jet-dropdown-link>
 
-                                <x-jet-dropdown-link href="{{ route('fieldequips') }}" :active="request()->routeIs('fieldequips')">
+                                <x-jet-dropdown-link href="{{ route('fieldequips')}}" :active="request()->routeIs('fieldequips')">
                                     {{ __('Equipment') }}
                                 </x-jet-dropdown-link>
 

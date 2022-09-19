@@ -11,20 +11,14 @@ module.exports = {
 
     theme: {
         colors: {
-            'dada': {
-                100: '#255695',
 
-            },
             // ...
         },
         extend: {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
-            screens: {
-                'print': {'raw': 'print,(min-width: 1024px)'},
-                // => @media  print { ... }
-            }
+
 
         },
     },

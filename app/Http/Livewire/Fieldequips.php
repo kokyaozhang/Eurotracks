@@ -11,6 +11,9 @@ use Maatwebsite\Excel\Facades\Excel;
 use Livewire\Component;
 use App\Models\Fieldequip;
 
+
+
+
 class Fieldequips extends Component
 {
     public $fieldequips, $Location, $Equipment_Name,$category,$Serial_No
@@ -50,10 +53,11 @@ class Fieldequips extends Component
      *
      * @var array
      */
+
     public function render()
     {
 
-        $this->fieldequips = Fieldequip::all();
+            $this->fieldequips = Fieldequip::all();
 
         return view('livewire.fieldequips');
     }

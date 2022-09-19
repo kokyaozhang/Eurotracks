@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Posts;
+use \App\Http\Livewire\Fieldequips;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,10 +29,10 @@ Route::middleware([
 
     })->name('dashboard');
     Route::get('posts', Posts::class)->name('posts');
-    Route::get('fieldequips', \App\Http\Livewire\Fieldequips::class)->name('fieldequips');
+    Route::get('fieldequips', Fieldequips::class)->name('fieldequips');
     Route::get('report', \App\Http\Livewire\Reports::class)->name('report');
 
-    Route::post('fieldequips-import',[\App\Http\Livewire\Fieldequips::class.'import'])->name('fieldequips.import');
+    Route::post('fieldequips-import',[Fieldequips::class.'import'])->name('fieldequips.import');
     Route::get('export/',[\App\Http\Livewire\Fieldequips::class,'export'])->name('export');
 
 

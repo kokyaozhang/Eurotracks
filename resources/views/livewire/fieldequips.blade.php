@@ -71,9 +71,9 @@
                         <td class="border px-4 py-2">{{ $fieldequip->Frequency }}</td>
                         <td class="border px-4 py-2">{{ $fieldequip->Status }}</td>
                         <td class="border px-6 py-2">
-                            <x-jet-button wire:click="edit('{{ $fieldequip->Identification_No }}')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</x-jet-button>
-                            <x-jet-button  wire:click="toreport('{{ $fieldequip->Identification_No }}')"  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">View</x-jet-button>
-                            <x-jet-button wire:click="delete('{{ $fieldequip->Identification_No }}')" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</x-jet-button>
+                            <button wire:click="edit('{{ $fieldequip->Identification_No }}')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
+                            <button  wire:click="toreport('{{ $fieldequip->Identification_No }}')"  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">View</button>
+                            <button wire:click="delete('{{ $fieldequip->Identification_No }}')" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
                         </td>
                     </tr>
                 @endforeach
