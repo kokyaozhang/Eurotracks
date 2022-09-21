@@ -44,7 +44,9 @@ Route::middleware([
     Route::get('export/',[\App\Http\Livewire\Fieldequips::class,'export'])->name('export');
     Route::get('/userList',[\App\Http\Controllers\StudentController::class,'userList']);
     Route::get('/urlFetch/{key}', [\App\Http\Controllers\StudentController::class,'userFetch']);
-
+    Route::get('/', function () {
+        return view('auth.login');
+    })->name('/');
 });
 
 /*Route::middleware([
