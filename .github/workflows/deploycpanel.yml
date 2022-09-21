@@ -1,9 +1,8 @@
-
-name: Publish Website to CPanel
+name: Publish Website to Web Hosting
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   FTP-Deploy-Action:
     name: FTP-Deploy-Action
@@ -13,7 +12,7 @@ jobs:
       with:
         fetch-depth: 2
     - name: FTP-Deploy-Action
-      uses: kokyaozhang/Eurotracks
+      uses: SamKirkland/FTP-Deploy-Action@3.1.1
       with:
         ftp-server: ${{ secrets.FTP_SERVER }}
         ftp-username: ${{ secrets.FTP_USERNAME }}
