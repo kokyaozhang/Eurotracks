@@ -1,7 +1,11 @@
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+            <img
+                alt="Eurofins"
+                class="block h-20 w-auto pt-2"
+                src="{{url('/images/logo.png')}}"
+            />
         </x-slot>
 
         <x-jet-validation-errors class="mb-4" />

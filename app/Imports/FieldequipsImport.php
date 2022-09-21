@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\Shared;
 use App\Models\Fieldequip;
 
@@ -21,7 +22,9 @@ class FieldequipsImport implements ToCollection,  WithHeadingRow,WithValidation
     public function collection(Collection $rows)
     {
 
-
+        $previous = url()->previous();
+        Log::info($previous);
+        $lastChar = substr($previous, -1);
 
         foreach($rows as $row){
             $reg_date = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['Registrant_date']);
@@ -63,7 +66,7 @@ class FieldequipsImport implements ToCollection,  WithHeadingRow,WithValidation
 'Comment_Approval_date'=> date_timestamp_get($ca_dt) ? $ca_dt->format('Y-m-d') : null,
 'Notified_By'=>$row['Notified_By'],
             'Status'=>$row['Status'],
-                'type'=>$row['type']
+                'type'=>$lastChar
             ];
 
             Fieldequip::create($data);

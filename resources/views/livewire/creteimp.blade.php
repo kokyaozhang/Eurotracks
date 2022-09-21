@@ -27,26 +27,8 @@
                         <p class="text-sm font-light leading-relaxed mt-0 mb-0 text-gray-800 pl-10">
                             Please use the format file to import the data.
                         </p>
-                        <p class="text-sm font-light leading-relaxed mt-0 mb-0 text-gray-800 pl-10">
-                            For the field type column inside the format file,
-                        </p>
-                        <footer class="block text-gray-600 text-sm pl-10">
-                            - Fieldwork assets = 1
-                        </footer>
-                        <footer class="block text-gray-600 text-sm pl-10">
-                            - Fieldwork equipments = 2
-                        </footer>
-                        <footer class="block text-gray-600 text-sm pl-10">
-                            - Fieldwork models = 3
-                        </footer>
-                        <footer class="block text-gray-600 text-sm pl-10">
-                            - Lab assets = 4
-                        </footer> <footer class="block text-gray-600 text-sm pl-10">
-                            - Lab equipment = 5
-                        </footer>
-                        <footer class="block text-gray-600 text-sm pl-10">
-                            - Lab Models = 6
-                        </footer>
+
+
 
 
 
