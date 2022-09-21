@@ -7,6 +7,8 @@ use App\Imports\FieldequipImport;
 use App\Imports\FieldequipsImport;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
 use Livewire\Component;
 use App\Models\Fieldequip;
@@ -41,24 +43,61 @@ class Fieldequips extends Component
         $Comment_Approver,
         $Comment_Approval_date,
         $Notified_By,
-    $Status;
+    $Status,$type;
 
-
+    public $currentPage;
     public $isOpen = 0;
     public $isexpOpen = 0;
     public $isimpOpen = 0;
     public $Identification_No;
+    public $segment;
+
+
     /**
      * The attributes that are mass assignable.
      *
+     *
      * @var array
      */
-
-    public function render()
+    public function render(Request $request)
     {
 
-            $this->fieldequips = Fieldequip::all();
 
+        $segment = $request->segment(2);
+        Log::alert($segment);
+
+        switch ($segment){
+            case 1:
+                $matchThese = ['type' => '1'];
+                $this->fieldequips = Fieldequip::where($matchThese)->get();
+                $currentPage='Fields Equipment';
+                break;
+            case 2:
+                $matchThese = ['type' => '2'];
+                $this->fieldequips = Fieldequip::where($matchThese)->get();
+                $currentPage="Fields Equipment";
+                break;
+            case 3:
+                $matchThese = ['type' => '3'];
+                $this->fieldequips = Fieldequip::where($matchThese)->get();
+
+                break;
+            case 4:
+                $matchThese = ['type' => '4'];
+                $this->fieldequips = Fieldequip::where($matchThese)->get();
+
+                break;
+            case 5:
+                $matchThese = ['type' => '5'];
+                $this->fieldequips = Fieldequip::where($matchThese)->get();
+
+                break;
+            case 6:
+                $matchThese = ['type' => '6'];
+                $this->fieldequips = Fieldequip::where($matchThese)->get();
+
+                break;
+        }
         return view('livewire.fieldequips');
     }
     /**
@@ -66,9 +105,17 @@ class Fieldequips extends Component
      *
      * @var array
      */
+    public function geturli(Request $request, $hex){
+        return 'Fieldequip '.$hex;
+    }
     public function toreport($idno)
     {
         return redirect()->route('report')->with([ 'idno' => $idno ]);
+    }
+    public function returnseg(Request $request)
+    {
+
+        return $request->segment(2);
     }
     /**
      * The attributes that are mass assignable.
@@ -230,12 +277,17 @@ class Fieldequips extends Component
      *
      * @var array
      */
-    public function store()
+    public function store(Request $request)
     {
         $this->validate([
             'Identification_No' => 'required',
             'Equipment_Name' => 'required',
         ]);
+
+        $previous = url()->previous();
+        $lastChar = substr($previous, -1);
+        Log::debug($lastChar);
+
 
         Fieldequip::updateOrCreate(['Identification_No' => $this->Identification_No], [
             'Equipment_Name' => $this->Equipment_Name,
@@ -270,6 +322,7 @@ class Fieldequips extends Component
 'Notified_By'=>$this->Notified_By,
             'Status'=>$this->Status,
 
+            'type'=>$lastChar
         ]);
 
         session()->flash('message',
@@ -332,6 +385,11 @@ class Fieldequips extends Component
     {
         Fieldequip::find($Identification_No)->delete();
         session()->flash('message', 'Equipment Deleted Successfully.');
+
+    }
+    public function download(){
+        $path=public_path('excel/excelformatprinted.xlsx');
+        return response()->download($path);
     }
 }
 

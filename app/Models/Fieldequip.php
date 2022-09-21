@@ -44,7 +44,7 @@ class Fieldequip extends Model
         'Comment_Approver',
         'Comment_Approval_date',
         'Notified_By',
-        'Status',
+        'Status','type',
     ];
     protected $guarded=[];
 }

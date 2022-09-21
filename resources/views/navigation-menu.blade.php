@@ -38,15 +38,15 @@
                                 </div>
 
                                 <!-- Team Settings -->
-                                <x-jet-dropdown-link href="{{ route('posts') }}" :active="request()->routeIs('posts')">
+                                <x-jet-dropdown-link href="{{ route('fieldassets') }}" :active="request()->routeIs('fieldassets')">
                                     {{ __('Assets') }}
                                 </x-jet-dropdown-link>
 
-                                <x-jet-dropdown-link href="{{ route('fieldequips')}}" :active="request()->routeIs('fieldequips')">
+                                <x-jet-dropdown-link href="{{ route('fieldequips') }}" :active="request()->routeIs('fieldequips')">
                                     {{ __('Equipment') }}
                                 </x-jet-dropdown-link>
 
-                                <x-jet-dropdown-link href="{{ route('posts') }}" :active="request()->routeIs('posts')">
+                                <x-jet-dropdown-link href="{{ route('fieldemodel') }}" :active="request()->routeIs('fieldemodel')">
                                     {{ __('Certified models') }}
                                 </x-jet-dropdown-link>
 
@@ -55,15 +55,15 @@
                             </div>
 
                             <!-- Team Settings -->
-                            <x-jet-dropdown-link href="{{ route('posts') }}" :active="request()->routeIs('posts')">
+                            <x-jet-dropdown-link href="{{ route('labassets') }}" :active="request()->routeIs('labassets')">
                                 {{ __('Assets') }}
                             </x-jet-dropdown-link>
 
-                            <x-jet-dropdown-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                            <x-jet-dropdown-link href="{{ route('labequips') }}" :active="request()->routeIs('labequips')">
                                 {{ __('Equipment') }}
                             </x-jet-dropdown-link>
 
-                            <x-jet-dropdown-link href="{{ route('posts') }}" :active="request()->routeIs('posts')">
+                            <x-jet-dropdown-link href="{{ route('labmodel') }}" :active="request()->routeIs('labmodel')">
                                 {{ __('Certified models') }}
                             </x-jet-dropdown-link>
 

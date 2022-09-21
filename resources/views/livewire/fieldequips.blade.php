@@ -1,11 +1,35 @@
 <div>
 <x-slot name="header">
+
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Register New Fieldwork Equipment
+
+        @switch(Request::segment(2))
+            @case(1)
+                Register New Field Assets
+                @break
+
+            @case(2)
+                Register New Field Equipments
+                @break
+            @case(3)
+                Register New Field Models
+                @break
+            @case(4)
+                Register New Lab Assets
+                @break
+            @case(5)
+                Register New Lab Equipments
+                @break
+            @case(6)
+                Register New Lab Models
+                @break
+
+            @default
+               Header not define
+        @endswitch
+
     </h2>
-    @if($errors->any())
-        <h4>{{$errors->first()}}</h4>
-    @endif
+
 </x-slot>
 <div class="py-12">
 
@@ -63,8 +87,6 @@
                 <tbody>
                 @foreach($fieldequips as $fieldequip)
                     <tr>
-
-
                         <td class="border px-4 py-2" >{{ $fieldequip->Identification_No }}</td>
                         <td class="border px-4 py-2">{{ $fieldequip->Equipment_Name }}</td>
                         <td class="border px-4 py-2">{{ $fieldequip->Location }}</td>

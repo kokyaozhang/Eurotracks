@@ -20,7 +20,16 @@ class FieldequipsImport implements ToCollection,  WithHeadingRow,WithValidation
 
     public function collection(Collection $rows)
     {
+
+
+
         foreach($rows as $row){
+            $reg_date = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['Registrant_date']);
+            $dt_rc = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['Registrant_date']);
+            $sc_dt = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['Registrant_date']);
+            $ac_dt = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['Registrant_date']);
+            $dc_dt = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['Registrant_date']);
+            $ca_dt = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['Registrant_date']);
             $data=[
             "Identification_No" => $row['Identification_No'],
             "Equipment_Name" => $row['Equipment_Name'],
@@ -33,8 +42,8 @@ class FieldequipsImport implements ToCollection,  WithHeadingRow,WithValidation
             'Supplier_Contact'=>$row['Supplier_Contact'],
             'Supplier_Email'=>$row['Supplier_Email'],
 'classification'=>$row['classification'],
-'date_received'=>\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['date_received'])->format('Y-m-d'),
-'Service_date'=>\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['Service_date'])->format('Y-m-d'),
+'date_received'=> date_timestamp_get($dt_rc) ? $dt_rc->format('Y-m-d') : null,
+'Service_date'=> date_timestamp_get($sc_dt) ? $reg_date->format('Y-m-d') : null,
 'Operation_Section'=>$row['Operation_Section'],
 'Manual_Location'=>$row['Manual_Location'],
 'Authorized_User'=>$row['Authorized_User'],
@@ -44,16 +53,17 @@ class FieldequipsImport implements ToCollection,  WithHeadingRow,WithValidation
 'Frequency'=>$row['Frequency'],
 'Executor'=>$row['Executor'],
 'Registrant'=>$row['Registrant'],
-'Registrant_date'=>\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['Registrant_date'])->format('Y-m-d'),
+                'Registrant_date'=> date_timestamp_get($reg_date) ? $reg_date->format('Y-m-d') : null,
 'Authorizer'=>$row['Authorizer'],
-'Authorized_date'=>\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['Authorized_date'])->format('Y-m-d'),
+'Authorized_date'=> date_timestamp_get($ac_dt) ? $ac_dt->format('Y-m-d') : null,
 'Declaration'=>$row['Declaration'],
-'Declaration_date'=>\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['Declaration_date'])->format('Y-m-d'),
+'Declaration_date'=> date_timestamp_get($dc_dt) ? $dc_dt->format('Y-m-d') : null,
 'Comment'=>$row['Comment'],
 'Comment_Approver'=>$row['Comment_Approver'],
-'Comment_Approval_date'=>\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['Comment_Approval_date'])->format('Y-m-d'),
+'Comment_Approval_date'=> date_timestamp_get($ca_dt) ? $ca_dt->format('Y-m-d') : null,
 'Notified_By'=>$row['Notified_By'],
-            'Status'=>$row['Status']
+            'Status'=>$row['Status'],
+                'type'=>$row['type']
             ];
 
             Fieldequip::create($data);
