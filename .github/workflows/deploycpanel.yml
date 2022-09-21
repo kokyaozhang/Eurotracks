@@ -13,7 +13,7 @@ jobs:
       with:
         fetch-depth: 2
     - name: FTP-Deploy-Action
-      uses: Sandboxa/FTP-Deploy-Action@3.1.1
+      uses: kokyaozhang/Eurotracks
       with:
         ftp-server: ${{ secrets.FTP_SERVER }}
         ftp-username: ${{ secrets.FTP_USERNAME }}
