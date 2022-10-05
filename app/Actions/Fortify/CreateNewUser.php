@@ -2,8 +2,11 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\Team;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
@@ -13,7 +16,7 @@ class CreateNewUser implements CreatesNewUsers
     use PasswordValidationRules;
 
     /**
-     * Validate and create a newly registered user.
+     * Create a newly registered user.
      *
      * @param  array  $input
      * @return \App\Models\User
@@ -27,10 +30,40 @@ class CreateNewUser implements CreatesNewUsers
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
-        return User::create([
-            'name' => $input['name'],
-            'email' => $input['email'],
-            'password' => Hash::make($input['password']),
-        ]);
+        return DB::transaction(function () use ($input) {
+
+            return tap(User::create([
+                'name' => $input['name'],
+                'email' => $input['email'],
+
+                'password' => Hash::make($input['password']),
+            ]), function (User $user) use ($input) {
+
+
+                $this->createTeam($user,$input);
+            });
+        });
+    }
+
+    /**
+     * Create a personal team for the user.
+     *
+     * @param  \App\Models\User  $user
+     * @return void
+     */
+    protected function createTeam(User $user, array $input)
+    {
+        if ($input['team']==1){
+            $team = Team::first();
+        }elseif ($input['team']==2){
+            $team = Team::find(2);}
+        else{
+            $team = Team::find(3);
+        }
+
+        Log::debug($input['team']);
+        $user->teams()->attach($team, array('role' => 'general'));
+
+        $user->switchTeam($team);
     }
 }

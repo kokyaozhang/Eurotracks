@@ -44,7 +44,7 @@ class Fieldequip extends Model
         'Comment_Approver',
         'Comment_Approval_date',
         'Notified_By',
-        'Status','type',
+        'Status','type','Calibration','Calib_date','Preventive','Preven_date','Internal','Int_date','External','Ext_date','Verification','Ver_date','Calibration_by','Verification_by','Service_by','data','products','zzt',
     ];
     protected $guarded=[];
 }

@@ -202,32 +202,201 @@
                 <span class="-px-8 text-base font-bold col-span-4">{{$report->Technical_Info}}</span>
             @endforeach
         </div>
+
+
+
         <div class="w-full h-0.5 bg-gray-800 content-around"></div>
+
         <div class="grid grid-cols-12 gap-0 content-evenly">
-            @foreach($reports as $report)
-        <span class="text-base text-center font-bold col-span-12">{{$report->Grouping}}</span>
-            @endforeach
+
+            @if($report->Calibration==1)
+
+                @foreach($reports as $report)
+        <span class="text-base text-center font-bold col-span-12">Calibration</span>
+                @endforeach
+
+            @endif
         </div>
-        <div class="mb-2 w-full h-0.5 bg-gray-800 content-around"></div>
+        @if($report->Calibration==1)
+            <div class="mb-2 w-full h-0.5 bg-gray-800 content-around"></div>
+        @endif
+
         <div class="grid grid-cols-2 gap-3">
+            @if($report->Calibration==1)
             <div class="grid grid-cols-12 gap-0 content-evenly">
                 <span class="px-4 text-base font-bold col-span-5">Frequency</span>
                 <span class="-px-4 text-base font-bold col-span-1">:</span>
                 @foreach($reports as $report)
-                    <span class="-px-8 text-base font-bold col-span-6">{{$report->Frequency}}</span>
+                    <span class="-px-8 text-base font-bold col-span-6">{{$report->Calib_date}}</span>
                 @endforeach
             </div>
             <div class="grid grid-cols-12 gap-0 content-evenly">
                 @foreach($reports as $report)
-                <span class="px-4 text-base font-bold col-span-6">{{$report->Grouping}} by</span>
+                <span class="px-4 text-base font-bold col-span-6">Calibration by</span>
                 @endforeach
                 <span class="-px-4 text-base font-bold col-span-1">:</span>
                 @foreach($reports as $report)
-                    <span class="-px-8 text-base font-bold col-span-5">{{$report->Executor}}</span>
+                    <span class="-px-8 text-base font-bold col-span-5">{{$report->Calibration_by}}</span>
                 @endforeach
             </div>
+            @endif
+
         </div>
+        @if($report->Calibration==1)
+            <div class="mb-2 w-full h-0.5 bg-gray-800 content-around"></div>
+        @endif
+        <div class="grid grid-cols-12 gap-0 content-evenly">
+
+            @if($report->Preventive==1)
+
+                @foreach($reports as $report)
+                    <span class="text-base text-center font-bold col-span-12">Preventive</span>
+                @endforeach
+
+            @endif
+        </div>
+        @if($report->Preventive==1)
+            <div class="mb-2 w-full h-0.5 bg-gray-800 content-around"></div>
+        @endif
+
+        <div class="grid grid-cols-2 gap-3">
+            @if($report->Preventive==1)
+                <div class="grid grid-cols-12 gap-0 content-evenly">
+                    <span class="px-4 text-base font-bold col-span-5">Frequency</span>
+                    <span class="-px-4 text-base font-bold col-span-1">:</span>
+                    @foreach($reports as $report)
+                        <span class="-px-8 text-base font-bold col-span-6">{{$report->Preven_date}}</span>
+                    @endforeach
+                </div>
+                <div class="grid grid-cols-12 gap-0 content-evenly">
+                    @foreach($reports as $report)
+                        <span class="px-4 text-base font-bold col-span-6">Preventive measure by</span>
+                    @endforeach
+                    <span class="-px-4 text-base font-bold col-span-1">:</span>
+                    @foreach($reports as $report)
+                        <span class="-px-8 text-base font-bold col-span-5">{{$report->Calibration_by}}</span>
+                    @endforeach
+                </div>
+            @endif
+
+        </div>
+        @if($report->Preventive==1)
+            <div class="mb-2 w-full h-0.5 bg-gray-800 content-around"></div>
+        @endif
+        <div class="grid grid-cols-12 gap-0 content-evenly">
+
+            @if($report->Internal==1)
+
+                @foreach($reports as $report)
+                    <span class="text-base text-center font-bold col-span-12">Internal services</span>
+                @endforeach
+
+            @endif
+        </div>
+        @if($report->Internal==1)
         <div class="mb-2 w-full h-0.5 bg-gray-800 content-around"></div>
+        @endif
+        <div class="grid grid-cols-2 gap-3">
+            @if($report->Internal==1)
+                <div class="grid grid-cols-12 gap-0 content-evenly">
+                    <span class="px-4 text-base font-bold col-span-5">Frequency</span>
+                    <span class="-px-4 text-base font-bold col-span-1">:</span>
+                    @foreach($reports as $report)
+                        <span class="-px-8 text-base font-bold col-span-6">{{$report->Int_date}}</span>
+                    @endforeach
+                </div>
+                <div class="grid grid-cols-12 gap-0 content-evenly">
+                    @foreach($reports as $report)
+                        <span class="px-4 text-base font-bold col-span-6">Serviced by</span>
+                    @endforeach
+                    <span class="-px-4 text-base font-bold col-span-1">:</span>
+                    @foreach($reports as $report)
+                        <span class="-px-8 text-base font-bold col-span-5">{{$report->Service_by}}</span>
+                    @endforeach
+                </div>
+            @endif
+
+        </div>
+        @if($report->Internal==1)
+            <div class="mb-2 w-full h-0.5 bg-gray-800 content-around"></div>
+        @endif
+        <div class="grid grid-cols-12 gap-0 content-evenly">
+
+            @if($report->External==1)
+
+                @foreach($reports as $report)
+                    <span class="text-base text-center font-bold col-span-12">External Services</span>
+                @endforeach
+
+            @endif
+        </div>
+        @if($report->External==1)
+            <div class="mb-2 w-full h-0.5 bg-gray-800 content-around"></div>
+        @endif
+
+        <div class="grid grid-cols-2 gap-3">
+            @if($report->External==1)
+                <div class="grid grid-cols-12 gap-0 content-evenly">
+                    <span class="px-4 text-base font-bold col-span-5">Frequency</span>
+                    <span class="-px-4 text-base font-bold col-span-1">:</span>
+                    @foreach($reports as $report)
+                        <span class="-px-8 text-base font-bold col-span-6">{{$report->Ext_date}}</span>
+                    @endforeach
+                </div>
+                <div class="grid grid-cols-12 gap-0 content-evenly">
+                    @foreach($reports as $report)
+                        <span class="px-4 text-base font-bold col-span-6">Serviced by</span>
+                    @endforeach
+                    <span class="-px-4 text-base font-bold col-span-1">:</span>
+                    @foreach($reports as $report)
+                        <span class="-px-8 text-base font-bold col-span-5">{{$report->Service_by}}</span>
+                    @endforeach
+                </div>
+            @endif
+
+        </div>
+        @if($report->External==1)
+            <div class="mb-2 w-full h-0.5 bg-gray-800 content-around"></div>
+        @endif
+        <div class="grid grid-cols-12 gap-0 content-evenly">
+
+            @if($report->Verification==1)
+
+                @foreach($reports as $report)
+                    <span class="text-base text-center font-bold col-span-12">Verification</span>
+                @endforeach
+
+            @endif
+        </div>
+        @if($report->Verification==1)
+            <div class="mb-2 w-full h-0.5 bg-gray-800 content-around"></div>
+        @endif
+
+        <div class="grid grid-cols-2 gap-3">
+            @if($report->Verification==1)
+                <div class="grid grid-cols-12 gap-0 content-evenly">
+                    <span class="px-4 text-base font-bold col-span-5">Frequency</span>
+                    <span class="-px-4 text-base font-bold col-span-1">:</span>
+                    @foreach($reports as $report)
+                        <span class="-px-8 text-base font-bold col-span-6">{{$report->Ver_date}}</span>
+                    @endforeach
+                </div>
+                <div class="grid grid-cols-12 gap-0 content-evenly">
+                    @foreach($reports as $report)
+                        <span class="px-4 text-base font-bold col-span-6">Verification by</span>
+                    @endforeach
+                    <span class="-px-4 text-base font-bold col-span-1">:</span>
+                    @foreach($reports as $report)
+                        <span class="-px-8 text-base font-bold col-span-5">{{$report->Verification_by}}</span>
+                    @endforeach
+                </div>
+            @endif
+
+        </div>
+        @if($report->Verification==1)
+            <div class="mb-2 w-full h-0.5 bg-gray-800 content-around"></div>
+        @endif
+
         <div class="grid grid-cols-12 gap-0 content-evenly">
             <div class="mb-2 text-base align-middle text-center font-bold col-span-6">Register</div>
             <div class="mb-2 text-base text-center font-bold col-span-6 border-l-2 flex border-gray-800">Authorized and Approved By (Laboratory Operation Manager/Technical Manager)</div>

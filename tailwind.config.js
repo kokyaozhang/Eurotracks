@@ -10,19 +10,12 @@ module.exports = {
     ],
 
     theme: {
-        colors: {
-
-            // ...
-        },
         extend: {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
-
-
         },
     },
 
     plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
-
 };

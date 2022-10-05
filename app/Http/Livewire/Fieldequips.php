@@ -6,12 +6,16 @@ use App\Exports\FieldequipsExport;
 use App\Imports\FieldequipImport;
 use App\Imports\FieldequipsImport;
 
+use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
 use Livewire\Component;
 use App\Models\Fieldequip;
+use Laravel\Jetstream\HasTeams;
+use App\Models\User;
+
 
 
 
@@ -30,8 +34,7 @@ class Fieldequips extends Component
         $Authorized_User,
         $equip_limit,
         $Technical_Info,
-        $Grouping,
-        $Frequency,
+        $Calibration,$Calib_date,$Preventive,$Preven_date,$Internal,$Int_date,$External,$Ext_date,$Verification,$Ver_date,
         $Executor,
         $Registrant,
         $Registrant_date,
@@ -41,8 +44,9 @@ class Fieldequips extends Component
         $Declaration_date,
         $Comment,
         $Comment_Approver,
+        $fieldequipz,
         $Comment_Approval_date,
-        $Notified_By,
+        $Notified_By,$Calibration_by,$Verification_by,$Service_by,
     $Status,$type;
 
     public $currentPage;
@@ -62,43 +66,100 @@ class Fieldequips extends Component
     public function render(Request $request)
     {
 
-
         $segment = $request->segment(2);
-        Log::alert($segment);
-
+        $user = $request->user();
+        $matchThese = ['type' => ''];
         switch ($segment){
             case 1:
+                if (!($user->currentTeam->id == 1)) {
+                    abort(401,'You no team');
+                }
                 $matchThese = ['type' => '1'];
-                $this->fieldequips = Fieldequip::where($matchThese)->get();
+                $data = Fieldequip::where($matchThese)->paginate(5);
                 $currentPage='Fields Equipment';
                 break;
             case 2:
+                if (!($user->currentTeam->id == 1)) {
+                    abort(401,'You no team');
+                }
                 $matchThese = ['type' => '2'];
-                $this->fieldequips = Fieldequip::where($matchThese)->get();
+                $data = Fieldequip::where($matchThese)->paginate(5);
                 $currentPage="Fields Equipment";
                 break;
             case 3:
+                if (!($user->currentTeam->id == 1)) {
+                    abort(401,'You no team');
+                }
                 $matchThese = ['type' => '3'];
-                $this->fieldequips = Fieldequip::where($matchThese)->get();
+                $data = Fieldequip::where($matchThese)->paginate(5);
 
                 break;
             case 4:
+                if (!($user->currentTeam->id == 2)) {
+                    abort(401,'You no team');
+                }
                 $matchThese = ['type' => '4'];
-                $this->fieldequips = Fieldequip::where($matchThese)->get();
+                $data = Fieldequip::where($matchThese)->paginate(5);
 
                 break;
             case 5:
+                if (!($user->currentTeam->id == 2)) {
+                    abort(401,'You no team');
+                }
                 $matchThese = ['type' => '5'];
-                $this->fieldequips = Fieldequip::where($matchThese)->get();
+                $data = Fieldequip::where($matchThese)->paginate(5);
 
                 break;
             case 6:
+                if (!($user->currentTeam->id == 2)) {
+                    abort(401,'You no team');
+                }
                 $matchThese = ['type' => '6'];
-                $this->fieldequips = Fieldequip::where($matchThese)->get();
+                $data = Fieldequip::where($matchThese)->paginate(5);
 
                 break;
+            case 7:
+                if (!($user->currentTeam->id == 3)) {
+                    abort(401,'You no team');
+                }
+                $matchThese = ['type' => '7'];
+                $data = Fieldequip::where($matchThese)->paginate(5);
+
+                break;
+            case 8:
+                if (!($user->currentTeam->id == 3)) {
+                    abort(401,'You no team');
+                }
+                $matchThese = ['type' => '8'];
+                $data = Fieldequip::where($matchThese)->paginate(5);
+
+                break;
+            case 9:
+                if (!($user->currentTeam->id == 3)) {
+                    abort(401,'You no team');
+                }
+                $matchThese = ['type' => '9'];
+                $data = Fieldequip::where($matchThese)->paginate(5);
+
+                break;
+                //if all condition didnt e
+
         }
-        return view('livewire.fieldequips');
+        $team = Team::find(1);
+        $matchThese = ['type' => $segment];
+
+        $data = Fieldequip::where($matchThese)->paginate(5);
+
+
+        if(!$user->hasTeamPermission($team,'update')){
+            abort(403,'You are not authorized to view this page');
+
+        }
+        //return compact$data
+
+
+        return view('livewire.fieldequips',['data' => $data]);
+
     }
     /**
      * The attributes that are mass assignable.
@@ -209,7 +270,9 @@ class Fieldequips extends Component
      */
     public function closeModal()
     {
+
         $this->isOpen = false;
+
     }
 
     /**
@@ -237,9 +300,20 @@ class Fieldequips extends Component
         $this->Authorized_User = '';
         $this->equip_limit = '';
         $this->Technical_Info = '';
-        $this->Grouping = '';
-        $this->Frequency = '';
-        $this->Executor = '';
+
+        $this->Calibration = '';
+        $this->Calib_date = '';
+        $this->Preventive = '';
+        $this->Preven_date = '';
+        $this->Internal = '';
+        $this->Int_date = '';
+        $this->External = '';
+        $this->Ext_date = '';
+        $this->Verification = '';
+        $this->Ver_date = '';
+        $this->Calibration_by = '';
+        $this->Verification_by = '';
+        $this->Service_by = '';
         $this->Registrant = '';
         $this->Registrant_date = '';
         $this->Authorizer = '';
@@ -286,7 +360,7 @@ class Fieldequips extends Component
 
         $previous = url()->previous();
         $lastChar = substr($previous, -1);
-        Log::debug($lastChar);
+
 
 
         Fieldequip::updateOrCreate(['Identification_No' => $this->Identification_No], [
@@ -307,9 +381,19 @@ class Fieldequips extends Component
 'Authorized_User'=>$this->Authorized_User,
 'equip_limit'=>$this->equip_limit,
 'Technical_Info'=>$this->Technical_Info,
-'Grouping'=>$this->Grouping,
-'Frequency'=>$this->Frequency,
-'Executor'=>$this->Executor,
+'Calibration'=>$this->Calibration,
+'Calib_date'=>$this->Calib_date,
+'Preventive'=>$this->Preventive,
+'Preven_date'=>$this->Preven_date,
+'Internal'=>$this->Internal,
+'Int_date'=>$this->Int_date,
+'External'=>$this->External,
+'Ext_date'=>$this->Ext_date,
+'Verification'=>$this->Verification,
+'Ver_date'=>$this->Ver_date,
+'Calibration_by'=>$this->Calibration_by,
+'Verification_by'=>$this->Verification_by,
+'Service_by'=>$this->Service_by,
 'Registrant'=>$this->Registrant,
 'Registrant_date'=>$this->Registrant_date,
 'Authorizer'=>$this->Authorizer,
@@ -359,9 +443,19 @@ class Fieldequips extends Component
         $this->Authorized_User = $fieldequip->Authorized_User;
         $this->equip_limit = $fieldequip->equip_limit;
         $this->Technical_Info = $fieldequip->Technical_Info;
-        $this->Grouping = $fieldequip->Grouping;
-        $this->Frequency = $fieldequip->Frequency;
-        $this->Executor = $fieldequip->Executor;
+        $this->Calibration = $fieldequip->Calibration;
+        $this->Calib_date = $fieldequip->Calib_date;
+        $this->Preventive = $fieldequip->Preventive;
+        $this->Preven_date = $fieldequip->Preven_date;
+        $this->Internal = $fieldequip->Internal;
+        $this->Int_date = $fieldequip->Int_date;
+        $this->External = $fieldequip->External;
+        $this->Ext_date = $fieldequip->Ext_date;
+        $this->Verification = $fieldequip->Verification;
+        $this->Ver_date = $fieldequip->Ver_date;
+        $this->Calibration_by = $fieldequip->Calibration_by;
+        $this->Verification_by = $fieldequip->Verification_by;
+        $this->Service_by = $fieldequip->Service_by;
         $this->Registrant = $fieldequip->Registrant;
         $this->Registrant_date = $fieldequip->Registrant_date;
         $this->Authorizer = $fieldequip->Authorizer;
@@ -391,5 +485,257 @@ class Fieldequips extends Component
         $path=public_path('excel/excelformatprinted.xlsx');
         return response()->download($path);
     }
+    public function search(Request $request)
+    {
+
+        $output="";
+        $segment = $request->segment(2);
+        $user = $request->user();
+        $matchThese = ['type' => ''];
+        $previous = url()->previous();
+        $lastChar = substr($previous, -1);
+        $data = Fieldequip::where('Identification_No', 'like', '%' . $request->search . '%')
+            ->orwhere('Equipment_Name', 'like', '%' . $request->search . '%')
+            ->orwhere('Serial_No', 'like', '%' . $request->search . '%')->where(['type' => '1'])->paginate(5);
+        $array =$request->search;
+        switch ($lastChar){
+            case 1:
+                if (!($user->currentTeam->id == 1)) {
+                    abort(401,'You no team');
+                }
+                log::info($lastChar);
+                $matchThese = ['type' => '1'];
+                $data = Fieldequip::where(function($query) use ($array){
+                    $query->where('Identification_No', 'like', '%' . $array . '%')
+                        ->where(['type' => '1']);
+                })
+                    ->orWhere(function($query)use ($array) {
+                        $query->where('Equipment_Name', 'like', '%' . $array . '%')
+                            ->where(['type' => '1']);
+                    })
+                    ->orWhere(function($query)use ($array){
+                        $query->where('Serial_No', 'like', '%' . $array . '%')
+                            ->where(['type' => '1']);
+                    })->paginate(5);
+                break;
+            case 2:
+                if (!($user->currentTeam->id == 1)) {
+                    abort(401,'You no team');
+                }
+                log::info($lastChar);
+                $matchThese = ['type' => '2'];
+                $data = Fieldequip::where(function($query)use ($array) {
+                    $query->where('Identification_No', 'like', '%' . $array . '%')
+                        ->where(['type' => '2']);
+                })
+                    ->orWhere(function($query) use ($array){
+                        $query->where('Equipment_Name', 'like', '%' . $array . '%')
+                            ->where(['type' => '2']);
+                    })
+                    ->orWhere(function($query)use ($array) {
+                        $query->where('Serial_No', 'like', '%' . $array . '%')
+                            ->where(['type' => '2']);
+                    })->paginate(5);
+                break;
+            case 3:
+                if (!($user->currentTeam->id == 1)) {
+                    abort(401,'You no team');
+                }
+                log::info($lastChar);
+                $matchThese = ['type' => '3'];
+                $data = Fieldequip::where(function($query)use ($array) {
+                    $query->where('Identification_No', 'like', '%' . $array . '%')
+                        ->where(['type' => '3']);
+                })
+                    ->orWhere(function($query)use ($array) {
+                        $query->where('Equipment_Name', 'like', '%' . $array . '%')
+                            ->where(['type' => '3']);
+                    })
+                    ->orWhere(function($query) use ($array){
+                        $query->where('Serial_No', 'like', '%' . $array . '%')
+                            ->where(['type' => '3']);
+                    })->paginate(5);
+                break;
+            case 4:
+                log::info($lastChar);
+                if (!($user->currentTeam->id == 2)) {
+                    abort(401,'You no team');
+                }
+                $matchThese = ['type' => '4'];
+                $data = Fieldequip::where(function($query)use ($array) {
+                    $query->where('Identification_No', 'like', '%' . $array . '%')
+                        ->where(['type' => '4']);
+                })
+                    ->orWhere(function($query) use ($array){
+                        $query->where('Equipment_Name', 'like', '%' . $array . '%')
+                            ->where(['type' => '4']);
+                    })
+                    ->orWhere(function($query)use ($array) {
+                        $query->where('Serial_No', 'like', '%' . $array . '%')
+                            ->where(['type' => '4']);
+                    })->paginate(5);
+
+                break;
+            case 5:
+                if (!($user->currentTeam->id == 2)) {
+                    abort(401,'You no team');
+                }
+                log::info($lastChar);
+                $matchThese = ['type' => '5'];
+                $data = Fieldequip::where(function($query)use ($array) {
+                    $query->where('Identification_No', 'like', '%' . $array . '%')
+                        ->where(['type' => '5']);
+                })
+                    ->orWhere(function($query)use ($array) {
+                        $query->where('Equipment_Name', 'like', '%' . $array . '%')
+                            ->where(['type' => '5']);
+                    })
+                    ->orWhere(function($query)use ($array) {
+                        $query->where('Serial_No', 'like', '%' . $array . '%')
+                            ->where(['type' => '5']);
+                    })->paginate(5);
+
+                break;
+            case 6:
+                log::info($lastChar);
+                if (!($user->currentTeam->id == 2)) {
+                    abort(401,'You no team');
+                }
+                $matchThese = ['type' => '6'];
+                $data = Fieldequip::where(function($query)use ($array) {
+                    $query->where('Identification_No', 'like', '%' . $array . '%')
+                        ->where(['type' => '6']);
+                })
+                    ->orWhere(function($query) use ($array){
+                        $query->where('Equipment_Name', 'like', '%' . $array . '%')
+                            ->where(['type' => '6']);
+                    })
+                    ->orWhere(function($query) use ($array){
+                        $query->where('Serial_No', 'like', '%' . $array . '%')
+                            ->where(['type' => '6']);
+                    })->paginate(5);
+
+                break;
+            case 7:
+                log::info($lastChar);
+                if (!($user->currentTeam->id == 3)) {
+                    abort(401,'You no team');
+                }
+                $matchThese = ['type' => '7'];
+                $data = Fieldequip::where(function($query) use ($array){
+                    $query->where('Identification_No', 'like', '%' . $array . '%')
+                        ->where(['type' => '7']);
+                })
+                    ->orWhere(function($query) use ($array){
+                        $query->where('Equipment_Name', 'like', '%' . $array . '%')
+                            ->where(['type' => '7']);
+                    })
+                    ->orWhere(function($query)use ($array) {
+                        $query->where('Serial_No', 'like', '%' . $array . '%')
+                            ->where(['type' => '7']);
+                    })->paginate(5);
+
+                break;
+            case 8:
+                log::info($lastChar);
+                if (!($user->currentTeam->id == 3)) {
+                    abort(401,'You no team');
+                }
+                $matchThese = ['type' => '8'];
+                $data = Fieldequip::where(function($query) use ($array){
+                    $query->where('Identification_No', 'like', '%' . $array . '%')
+                        ->where(['type' => '8']);
+                })
+                    ->orWhere(function($query)use ($array) {
+                        $query->where('Equipment_Name', 'like', '%' . $array . '%')
+                            ->where(['type' => '8']);
+                    })
+                    ->orWhere(function($query) use ($array){
+                        $query->where('Serial_No', 'like', '%' . $array . '%')
+                            ->where(['type' => '8']);
+                    })->paginate(5);
+
+                break;
+            case 9:
+                log::info($lastChar);
+                if (!($user->currentTeam->id == 3)) {
+                    abort(401,'You no team');
+                }
+                $matchThese = ['type' => '9'];
+                $data = Fieldequip::where(function($query)use ($array) {
+                    $query->where('Identification_No', 'like', '%' . $array . '%')
+                        ->where(['type' => '9']);
+                })
+                    ->orWhere(function($query) use ($array){
+                        $query->where('Equipment_Name', 'like', '%' . $array . '%')
+                            ->where(['type' => '9']);
+                    })
+                    ->orWhere(function($query)use ($array) {
+                        $query->where('Serial_No', 'like', '%' . $array . '%')
+                            ->where(['type' => '9']);
+                    })->paginate(5);
+
+                break;
+            //if all condition didnt e
+
+        }
+
+
+
+        foreach($data as $fieldequip) {
+
+                                     $output.= '<tr>
+                        <td class="border px-4 py-2">'.$fieldequip->Equipment_Name.'</td>
+                        <td class="border px-4 py-2" >'.$fieldequip->Identification_No.'</td>
+                        <td class="border px-4 py-2">'.$fieldequip->Location.'</td>
+                        <td class="border px-4 py-2">'.$fieldequip->equip_limit.'</td>
+
+
+                        <td class="border px-4 py-2">
+                         <ul class="list-disc">
+
+                       ';
+            if($fieldequip->Calibration  == 1&&$fieldequip->Calib_date != null)
+            {
+                $output .=   '<li class="pl-1 ml-1">Calibration('.$fieldequip->Calib_date.')</li>';}
+            if($fieldequip->Preventive == 1&&$fieldequip->Preven_date != null)
+            {
+                $output .=   '<li class="pl-1 ml-1">Preventive Measure('.$fieldequip->Preven_date.')</li>';}
+            if($fieldequip->Internal == 1&&$fieldequip->Int_date != null)
+            {
+                $output .=   '<li class="pl-1 ml-1">Internal Services('.$fieldequip->Int_date.')</li>';}
+            if($fieldequip->External == 1&&$fieldequip->Ext_date != null)
+            {
+                $output .=   '<li class="pl-1 ml-1">External Service('.$fieldequip->Ext_date.')</li>';}
+            if($fieldequip->Verification == 1&&$fieldequip->Ver_date != null)
+            {
+                $output .=   '<li class="pl-1 ml-1">Verification('.$fieldequip->Ver_date.')</li>';}
+
+
+
+
+            $output .= '</ul>
+                            </td>
+                        <td class="border px-4 py-2">'.$fieldequip->Status.'</td>
+                        <td class="border px-6 py-2">
+                            <button wire:click="edit('.$fieldequip->Identification_No.')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
+                            <button wire:click="toreport('.$fieldequip->Identification_No.')"  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">View</button>
+                            <button wire:click="delete('.$fieldequip->Identification_No .')" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+                        </td>
+                    </tr>';
+
+
+
+
+        }
+
+
+return response($output);
+        }
+
+
+
+
+
 }
 

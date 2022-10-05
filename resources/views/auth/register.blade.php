@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <x-jet-authentication-card class="bg-gray-200">
+    <x-jet-authentication-card>
         <x-slot name="logo">
             <img
                 alt="Eurofins"
@@ -32,6 +32,18 @@
                 <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
                 <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
+
+            <div class="mt-4">
+                <x-jet-label for="team_selection" value="{{ __('Team Selection') }}" />
+                <select id="team" name="team" class="block mt-1 w-full" type="text" required >
+                    <option value="" selected>Choose teams</option>
+                    <option value=1>Fieldwork</option>
+                    <option value=2>Labs(Chemical)</option>
+                    <option value=3>Labs(Micro)</option>
+                </select>
+            </div>
+
+
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">

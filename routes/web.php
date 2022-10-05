@@ -1,9 +1,14 @@
 <?php
 
+use App\Http\Controllers\PostController;
+use App\Http\Livewire\Users;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Posts;
 use \App\Http\Livewire\Fieldequips;
 use Illuminate\Http\Request;
+use Laravel\Jetstream\Http\Controllers\Inertia\TeamController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,14 +44,25 @@ Route::middleware([
     Route::get('/general/4', Fieldequips::class)->name('labassets');
     Route::get('/general/5', Fieldequips::class)->name('labequips');
     Route::get('/general/6', Fieldequips::class)->name('labmodel');
+    Route::get('/general/7', Fieldequips::class)->name('labassetsc');
+    Route::get('/general/8', Fieldequips::class)->name('labequipsc');
+    Route::get('/general/9', Fieldequips::class)->name('labmodelc');
+    Route::get('/users', \App\Http\Livewire\Teamusers::class)->name('users');
     Route::post('/idd',[\App\Http\Livewire\Fieldequips::class,'fimport']);
     Route::post('fieldequips-import',[Fieldequips::class.'import'])->name('fieldequips.import');
     Route::get('export/',[\App\Http\Livewire\Fieldequips::class,'export'])->name('export');
     Route::get('/userList',[\App\Http\Controllers\StudentController::class,'userList']);
     Route::get('/urlFetch/{key}', [\App\Http\Controllers\StudentController::class,'userFetch']);
+    Route::get('/index', function () {
+        return view('index');
+    });
     Route::get('/', function () {
         return view('auth.login');
     })->name('/');
+
+    Route::get("/search",[Fieldequips::class,'search']);
+
+
 });
 
 /*Route::middleware([
@@ -59,5 +75,5 @@ Route::middleware([
     })->name('posts');
 });*/
 
-Route::post('posts', Posts::class)->middleware('auth');
+
 Route::resource('photo', \App\Http\Controllers\PhotoController::class)->middleware('auth');
